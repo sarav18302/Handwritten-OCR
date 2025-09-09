@@ -1,29 +1,23 @@
-# Use official Python image
-FROM python:3.10-slim
+# Use community CPU-only PyTorch base image
+FROM cnstark/pytorch:2.3.0-py3.10.15-ubuntu22.04
 
-# Set environment variables
+# Disable bytecode generation and buffer stdout/stderr
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy only requirements first
+# Copy and install dependencies
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy only the app file
+# Copy the application code
 COPY app.py .
 
-# Expose Flask port
+# Default port (can be overridden by Azure's $PORT)
 EXPOSE 5000
 
-# Run the Flask app
+# Entrypoint to launch the Flask app
 CMD ["python", "app.py"]
+
