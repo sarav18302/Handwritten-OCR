@@ -8,7 +8,7 @@ import io
 # 🔹 Load Model & Processor
 # -------------------------------
 MODEL_NAME = "microsoft/trocr-small-handwritten"  # or "microsoft/trocr-small-handwritten"
-processor = TrOCRProcessor.from_pretrained(MODEL_NAME)
+processor = TrOCRProcessor.from_pretrained(MODEL_NAME, use_fast=False)
 model = VisionEncoderDecoderModel.from_pretrained(MODEL_NAME)
 model.eval()
 
